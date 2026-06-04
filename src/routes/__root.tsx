@@ -11,6 +11,12 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { CartProvider } from "@/lib/cart-context";
+import { Navbar } from "@/components/site/Navbar";
+import { Footer } from "@/components/site/Footer";
+import { WhatsAppButton } from "@/components/site/WhatsAppButton";
+import { Toaster } from "@/components/ui/sonner";
+
 
 function NotFoundComponent() {
   return (
@@ -77,20 +83,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "MangoBliz — Premium Mangoes Delivered Fresh" },
+      { name: "description", content: "Hand-picked Alphonso, Kesar, Banganapalli, Dasheri and Himsagar mangoes from India's finest orchards. Shipped within 24 hours." },
+      { name: "author", content: "MangoBliz" },
+      { property: "og:title", content: "MangoBliz — Premium Mangoes Delivered Fresh" },
+      { property: "og:description", content: "Premium hand-picked mangoes shipped fresh across India." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:site_name", content: "MangoBliz" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#f59e0b" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
     ],
   }),
   shellComponent: RootShell,
@@ -118,8 +122,18 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <CartProvider>
+        <div className="flex min-h-screen flex-col bg-gradient-to-b from-mango-50/30 via-background to-background">
+          <Navbar />
+          <main className="flex-1">
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </main>
+          <Footer />
+          <WhatsAppButton />
+          <Toaster richColors position="top-right" />
+        </div>
+      </CartProvider>
     </QueryClientProvider>
   );
 }
