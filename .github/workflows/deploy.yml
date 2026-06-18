@@ -38,8 +38,8 @@ jobs:
       - name: Prepare GitHub Pages files
         run: |
           test -f dist/client/index.html
-          cp dist/client/index.html dist/client/404.html
-          cp CNAME dist/client/CNAME
+          test -f dist/client/404.html || cp dist/client/index.html dist/client/404.html
+          cp public/CNAME dist/client/CNAME
           touch dist/client/.nojekyll
 
       - name: Upload Pages artifact
