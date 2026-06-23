@@ -1,43 +1,18 @@
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import { products } from "./src/lib/products";
-
-const staticPages = [
-  "/",
-  "/shop",
-  "/categories",
-  "/about",
-  "/faq",
-  "/contact",
-  "/cart",
-  "/checkout",
-  "/order-success",
-  "/privacy",
-  "/terms",
-  ...products.map((product) => `/products/${product.slug}`),
-];
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import path from "node:path";
 
 export default defineConfig({
-  tanstackStart: {
-    pages: staticPages.map((path) => ({
-      path,
-      prerender: { enabled: true },
-    })),
-    prerender: {
-      enabled: true,
-      crawlLinks: true,
-      failOnError: true,
+  base: "./",
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
-    spa: {
-      enabled: true,
-      maskPath: "/404",
-      prerender: {
-        outputPath: "/404",
-        crawlLinks: false,
-      },
-    },
-    sitemap: {
-      enabled: true,
-      host: "https://mangobliz.com",
-    },
+  },
+  server: {
+    port: 8080,
+    host: true,
   },
 });
